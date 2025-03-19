@@ -6,17 +6,17 @@ import Header from "../components/Header";
 const SkeletonLoader = () => (
   <div className="animate-pulse space-y-4">
     {[...Array(3)].map((_, index) => (
-      <div key={index} className="w-full p-4 bg-gray-800 rounded-lg">
+      <div key={index} className="w-full p-4 bg-[#121212c9] rounded-lg">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
+          <div className="w-10 h-10 bg-[#1a1a1ac9] rounded-full"></div>
           <div>
-            <div className="w-24 h-4 bg-gray-700 rounded"></div>
-            <div className="w-16 h-3 bg-gray-700 rounded mt-1"></div>
+            <div className="w-24 h-4 bg-[#1a1a1ac9] rounded"></div>
+            <div className="w-16 h-3 bg-[#1a1a1ac9] rounded mt-1"></div>
           </div>
         </div>
         <div className="mt-2">
-          <div className="w-3/4 h-5 bg-gray-700 rounded"></div>
-          <div className="w-full h-4 bg-gray-700 rounded mt-2"></div>
+          <div className="w-3/4 h-5 bg-[#1a1a1ac9] rounded"></div>
+          <div className="w-full h-4 bg-[#1a1a1ac9] rounded mt-2"></div>
         </div>
       </div>
     ))}

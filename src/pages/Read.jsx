@@ -6,9 +6,9 @@ import Markdown from "react-markdown";
 
 const SkeletonLoader = () => (
   <div className="animate-pulse space-y-4">
-    <div className="w-32 h-4 bg-gray-700 rounded"></div>
-    <div className="w-full h-6 bg-gray-700 rounded"></div>
-    <div className="w-full h-40 bg-gray-800 rounded"></div>
+    <div className="w-32 h-4 bg-[#1a1a1ac9] rounded"></div>
+    <div className="w-full h-6 bg-[#1a1a1ac9] rounded"></div>
+    <div className="w-full h-40 bg-[#121212c9] rounded"></div>
   </div>
 );
 
