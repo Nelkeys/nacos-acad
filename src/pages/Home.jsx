@@ -20,7 +20,7 @@ const Home = () => {
         <img
           src={Logo}
           alt="NACOS Logo"
-          className="w-[400px] h-[400px] md:w-[500px] md:h-[500px] object-contain blur-xs"
+          className="w-[700px] h-[700px] md:w-[500px] md:h-[500px] object-contain blur-[3px]"
         />
       </div>
 
