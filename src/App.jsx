@@ -1,18 +1,20 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import SearchResults from "./pages/SearchResults";
 import Read from "./pages/Read";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
+      {" "}
+      {/* Ensures full-page reloads work */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<SearchResults />} />
         <Route path="/:title" element={<Read />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
