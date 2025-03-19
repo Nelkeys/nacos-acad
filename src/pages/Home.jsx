@@ -25,8 +25,8 @@ const Home = () => {
       </div>
 
       <div className="text-center my-20">
-        <h1 className="featured text-2xl md:text-4xl font-medium">
-          <span className="text-[#10660bfc]">NACOS</span> ACADEMIA
+        <h1 className="featured text-3xl md:text-4xl font-medium">
+          <span className="text-[#286E34]">NACOS</span> ACADEMIA
         </h1>
       </div>
 
@@ -42,18 +42,18 @@ const Home = () => {
           placeholder="Find topics, authors, or research content..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="rounded-l-md w-full bg-[#424242] text-white text-base pl-4 py-2 md:py-3 focus:outline-none placeholder-[#5f5d5d]"
+          className="rounded-l-md w-full bg-[#424242] text-white text-base pl-4 py-2.5 focus:outline-none placeholder-[#5f5d5d]"
         />
 
         <button
           type="submit"
-          className="bg-[#10660bfc] hover:bg-[#10660bda] px-4 text-white font-semibold rounded-r-md cursor-pointer"
+          className="bg-[#286E34] hover:bg-[#286e34d8] px-4 text-white font-semibold rounded-r-md cursor-pointer"
         >
           Search
         </button>
       </form>
 
-      <div className="flex items-center gap-2 text-gray-400 text-sm mt-10">
+      <div className="flex items-center gap-2 text-gray-400 text-sm mt-15">
         <p>Server status:</p>
         <div className="flex items-center gap-2">
           <p>Active</p>

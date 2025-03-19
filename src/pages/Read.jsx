@@ -68,19 +68,25 @@ const Read = () => {
                 />
                 <div>
                   <p className="text-white">{article.author}</p>
-                  <p className="text-sm text-gray-400 font-light">{article.date}</p>
+                  <p className="text-sm text-gray-400 font-light">
+                    {article.date}
+                  </p>
                 </div>
               </div>
               <div className="bg-[#121212c9] py-2 px-3 rounded-2xl">
-                <p className="text-sm text-gray-300">{calculateReadingTime(article.content)}</p>
+                <p className="text-sm text-gray-300">
+                  {calculateReadingTime(article.content)}
+                </p>
               </div>
             </div>
 
             <div className="mt-10">
-              <h2 className="text-2xl text-center font-bold text-[#10660bfc]">{article.title}</h2>
+              <h2 className="featured text-2xl text-center font-bold text-[#286E34]">
+                {article.title}
+              </h2>
             </div>
 
-            <div className="mt-4 text-gray-400 space-y-4">
+            <div className="mt-4 text-gray-400 space-y-4 text-sm md:text-base">
               <Markdown>{article.content}</Markdown>
             </div>
           </div>

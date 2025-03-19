@@ -16,10 +16,10 @@ const Header = ({ query }) => {
     <div className="text-white flex flex-col items-center justify-center space-y-1 w-full max-w-xl">
       <div className="text-center py-5">
         <h1
-          className="text-2xl md:text-4xl font-medium cursor-pointer"
+          className="text-3xl md:text-4xl font-medium cursor-pointer"
           onClick={() => navigate("/")}
         >
-          <span className="featured text-[#10660bfc]">NACOS</span> ACADEMIA
+          <span className="featured text-[#286E34]">NACOS</span> ACADEMIA
         </h1>
       </div>
 
@@ -32,13 +32,13 @@ const Header = ({ query }) => {
           value={searchTerm} // Controlled input
           onChange={(e) => setSearchTerm(e.target.value)} // Allow typing
           placeholder="Find topics, authors, or research content..."
-          className="w-full rounded-l-md bg-[#424242] text-white text-base pl-4 py-3 focus:outline-none placeholder-[#5f5d5d]"
+          className="w-full rounded-l-md bg-[#424242] text-white text-base pl-4 py-2.5 focus:outline-none placeholder-[#5f5d5d]"
         />
 
         {/* Search Button */}
         <button
           type="submit"
-          className="bg-[#10660bfc] hover:bg-[#10660bda] px-6 text-white font-semibold rounded-r-md cursor-pointer"
+          className="bg-[#286E34] hover:bg-[#286e34d8] px-6 text-white font-semibold rounded-r-md cursor-pointer"
         >
           Search
         </button>

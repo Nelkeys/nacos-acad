@@ -78,7 +78,7 @@ const SearchResults = () => {
                 </div>
               </div>
               <div className="mt-2">
-                <p className="text-lg font-semibold text-[#10660bfc] hover:underline cursor-pointer">
+                <p className="text-lg font-semibold text-[#286E34] hover:underline cursor-pointer">
                   <Link
                     to={`/${encodeURIComponent(
                       article.title.toLowerCase().replace(/\s+/g, "-")
@@ -87,7 +87,7 @@ const SearchResults = () => {
                     {article.title}
                   </Link>
                 </p>
-                <p className="text-gray-400">
+                <p className="text-gray-400 text-sm ">
                   {article.content.substring(0, 100)}...
                 </p>
               </div>
