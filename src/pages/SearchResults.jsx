@@ -1,7 +1,27 @@
 import React, { useState, useEffect } from "react";
-import supabase from "../utils/supabase"; // Ensure you have Supabase client setup
+import { Link, useLocation } from "react-router-dom";
+import supabase from "../utils/supabase";
 import Header from "../components/Header";
-import { useLocation } from "react-router-dom";
+
+const SkeletonLoader = () => (
+  <div className="animate-pulse space-y-4">
+    {[...Array(3)].map((_, index) => (
+      <div key={index} className="w-full p-4 bg-gray-800 rounded-lg">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
+          <div>
+            <div className="w-24 h-4 bg-gray-700 rounded"></div>
+            <div className="w-16 h-3 bg-gray-700 rounded mt-1"></div>
+          </div>
+        </div>
+        <div className="mt-2">
+          <div className="w-3/4 h-5 bg-gray-700 rounded"></div>
+          <div className="w-full h-4 bg-gray-700 rounded mt-2"></div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
 
 const SearchResults = () => {
   const [articles, setArticles] = useState([]);
@@ -34,13 +54,16 @@ const SearchResults = () => {
 
   return (
     <div className="bg-[#030303] min-h-screen flex flex-col items-center px-4 py-6">
-      <Header />
+      <Header query={queryParam} />
       <div className="text-white w-full max-w-xl mt-10 space-y-6">
         {loading ? (
-          <p className="text-white text-lg">Loading articles...</p>
+          <SkeletonLoader />
         ) : articles.length > 0 ? (
-          articles.map((article, index) => (
-            <div key={index} className="w-full p-4 bg-[#121212c9] rounded-lg">
+          articles.map((article) => (
+            <div
+              key={article.id}
+              className="w-full p-4 bg-[#121212c9] rounded-lg"
+            >
               <div className="flex items-center gap-3">
                 <img
                   className="w-10 h-10 rounded-full border border-white"
@@ -56,7 +79,13 @@ const SearchResults = () => {
               </div>
               <div className="mt-2">
                 <p className="text-lg font-semibold text-[#10660bfc] hover:underline cursor-pointer">
-                  {article.title}
+                  <Link
+                    to={`/${encodeURIComponent(
+                      article.title.toLowerCase().replace(/\s+/g, "-")
+                    )}`}
+                  >
+                    {article.title}
+                  </Link>
                 </p>
                 <p className="text-gray-400">
                   {article.content.substring(0, 100)}...

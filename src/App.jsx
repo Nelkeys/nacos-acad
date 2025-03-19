@@ -9,8 +9,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/search" element={<SearchResults />}/>
-        <Route path="/read" element={<Read />} />
+        <Route path="/search" element={<SearchResults />} />
+        <Route path="/:title" element={<Read />} />
       </Routes>
     </Router>
   );

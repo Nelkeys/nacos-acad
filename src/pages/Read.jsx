@@ -1,55 +1,92 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
+import supabase from "../utils/supabase";
 import Header from "../components/Header";
+import Markdown from "react-markdown";
+
+const SkeletonLoader = () => (
+  <div className="animate-pulse space-y-4">
+    <div className="w-32 h-4 bg-gray-700 rounded"></div>
+    <div className="w-full h-6 bg-gray-700 rounded"></div>
+    <div className="w-full h-40 bg-gray-800 rounded"></div>
+  </div>
+);
 
 const Read = () => {
+  const { title } = useParams();
+  const location = useLocation();
+  const queryParam = new URLSearchParams(location.search).get("query") || "";
+
+  const [article, setArticle] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!title) return;
+
+    const fetchArticle = async () => {
+      setLoading(true);
+      try {
+        let { data, error } = await supabase
+          .from("academia-table")
+          .select("*")
+          .ilike("title", title.replace(/-/g, " ")) // Match the title
+          .single();
+
+        if (error) throw error;
+        setArticle(data);
+      } catch (error) {
+        console.error("Error fetching article:", error);
+      }
+      setLoading(false);
+    };
+
+    fetchArticle();
+  }, [title]);
+
+  const calculateReadingTime = (text) => {
+    if (!text) return "1 min read";
+    const wordsPerMinute = 200;
+    const wordCount = text.split(/\s+/).length;
+    const readingTime = Math.ceil(wordCount / wordsPerMinute);
+    return `${readingTime} min read`;
+  };
+
   return (
     <div className="bg-[#030303] min-h-screen flex flex-col items-center px-4 py-6">
-      <Header />
-
+      <Header query={queryParam} />
       <div className="text-white w-full max-w-xl mt-10 space-y-6">
-        <div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <img
-                className="w-10 h-10 rounded-full border border-white"
-                src="https://i.ibb.co/nwScD0Q/Polish-20240611-160046004-3.jpg"
-                alt="Author"
-              />
-              <div>
-                <p className="text-white">Nelson Ekoh</p>
-                <p className="text-sm text-gray-400 font-light">12 Dec 2024</p>
+        {loading ? (
+          <SkeletonLoader />
+        ) : article ? (
+          <div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <img
+                  className="w-10 h-10 rounded-full border border-white"
+                  src={article.author_image}
+                  alt={article.author}
+                />
+                <div>
+                  <p className="text-white">{article.author}</p>
+                  <p className="text-sm text-gray-400 font-light">{article.date}</p>
+                </div>
+              </div>
+              <div className="bg-[#121212c9] py-2 px-3 rounded-2xl">
+                <p className="text-sm text-gray-300">{calculateReadingTime(article.content)}</p>
               </div>
             </div>
 
-            <div className="bg-[#121212c9] py-2 px-3 rounded-2xl">
-              <p className="text-sm text-gray-300">2 min read</p>
+            <div className="mt-10">
+              <h2 className="text-2xl text-center font-bold text-[#10660bfc]">{article.title}</h2>
+            </div>
+
+            <div className="mt-4 text-gray-400 space-y-4">
+              <Markdown>{article.content}</Markdown>
             </div>
           </div>
-
-          <div className="mt-10">
-            <h2 className="text-2xl text-center font-bold">The Future of Artificial Intelligence</h2>
-          </div>
-
-          <div className="mt-4 text-gray-300 space-y-4">
-            <p>
-              Artificial Intelligence (AI) is rapidly transforming the world, influencing industries such as healthcare, finance, and transportation.
-              As AI evolves, it promises to enhance automation, improve decision-making, and create new opportunities across various sectors.
-            </p>
-            <p>
-              One of the most significant advancements in AI is the rise of **machine learning** and **deep learning**. These technologies allow machines
-              to analyze vast amounts of data, recognize patterns, and make decisions with minimal human intervention. AI-driven systems, such as
-              self-driving cars and intelligent virtual assistants, are becoming more sophisticated and widely adopted.
-            </p>
-            <p>
-              However, with great power comes great responsibility. The ethical implications of AI, including privacy concerns and job displacement,
-              remain topics of global debate. Governments and organizations are working to establish regulations that ensure AI is developed and used ethically.
-            </p>
-            <p>
-              In the coming years, we can expect AI to become even more integrated into our daily lives, leading to smarter cities, enhanced medical
-              diagnostics, and breakthroughs in scientific research. The key to harnessing AI's potential lies in balancing innovation with ethical considerations.
-            </p>
-          </div>
-        </div>
+        ) : (
+          <p className="text-gray-400 text-center">Article not found.</p>
+        )}
       </div>
     </div>
   );
