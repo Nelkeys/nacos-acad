@@ -19,26 +19,26 @@ const Header = ({ query }) => {
           className="text-3xl md:text-4xl font-medium cursor-pointer"
           onClick={() => navigate("/")}
         >
-          <span className="featured text-[#286E34]">NACOS</span> ACADEMIA
+          <span className="featured text-[#15803d]">NACOS</span> ACADEMIA
         </h1>
       </div>
 
       {/* Search Form */}
-      <form className="relative z-10 w-full flex" onSubmit={handleSearch}>
+      <form className="relative z-10 w-full flex gap-2" onSubmit={handleSearch}>
         <input
           type="text"
           name="search"
           id="search"
           value={searchTerm} // Controlled input
           onChange={(e) => setSearchTerm(e.target.value)} // Allow typing
-          placeholder="Find topics, authors, or research content..."
-          className="w-full rounded-l-md bg-[#424242] text-white text-base pl-4 py-2.5 focus:outline-none placeholder-[#5f5d5d]"
+          placeholder="Enter topic, author.."
+          className="w-full rounded-full bg-[#242424] border border-[#313131] text-white text-base pl-4 py-2.5 focus:outline-none placeholder-[#5f5d5d]"
         />
 
         {/* Search Button */}
         <button
           type="submit"
-          className="bg-[#286E34] hover:bg-[#286e34d8] px-6 text-white font-semibold rounded-r-md cursor-pointer"
+          className="bg-[#006239] border border-[#3ab57e] hover:bg-[#006259] transition px-6 text-white text-sm font-normal rounded-full cursor-pointer"
         >
           Search
         </button>

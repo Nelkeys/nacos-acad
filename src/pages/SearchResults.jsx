@@ -53,7 +53,7 @@ const SearchResults = () => {
   }, [queryParam]);
 
   return (
-    <div className="bg-[#030303] min-h-screen flex flex-col items-center px-4 py-6">
+    <div className="bg-[#121212] min-h-screen flex flex-col items-center px-4 py-6">
       <Header query={queryParam} />
       <div className="text-white w-full max-w-xl mt-10 space-y-6">
         {loading ? (
@@ -62,7 +62,7 @@ const SearchResults = () => {
           articles.map((article) => (
             <div
               key={article.id}
-              className="w-full p-4 bg-[#121212c9] rounded-lg"
+              className="w-full px-4 py-6 bg-[#171717] border border-[#313131] rounded-lg"
             >
               <div className="flex items-center gap-3">
                 <img
@@ -78,7 +78,7 @@ const SearchResults = () => {
                 </div>
               </div>
               <div className="mt-2">
-                <p className="text-lg font-semibold text-[#286E34] hover:underline cursor-pointer">
+                <p className="text-lg font-semibold text-[#15803d] hover:underline cursor-pointer">
                   <Link
                     to={`/${encodeURIComponent(
                       article.title.toLowerCase().replace(/\s+/g, "-")
@@ -87,7 +87,7 @@ const SearchResults = () => {
                     {article.title}
                   </Link>
                 </p>
-                <p className="text-gray-400 text-sm ">
+                <p className="text-gray-400 text-base">
                   {article.content.substring(0, 100)}...
                 </p>
               </div>

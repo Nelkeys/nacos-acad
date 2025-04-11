@@ -52,7 +52,7 @@ const Read = () => {
   };
 
   return (
-    <div className="bg-[#030303] min-h-screen flex flex-col items-center px-4 py-6">
+    <div className="bg-[#121212] min-h-screen flex flex-col items-center px-4 py-6">
       <Header query={queryParam} />
       <div className="text-white w-full max-w-xl mt-10 space-y-6">
         {loading ? (
@@ -73,7 +73,7 @@ const Read = () => {
                   </p>
                 </div>
               </div>
-              <div className="bg-[#121212c9] py-2 px-3 rounded-2xl">
+              <div className="bg-[#171717] border border-[#313131] py-2 px-3 rounded-2xl">
                 <p className="text-sm text-gray-300">
                   {calculateReadingTime(article.content)}
                 </p>
@@ -81,12 +81,12 @@ const Read = () => {
             </div>
 
             <div className="mt-10">
-              <h2 className="featured text-2xl text-center font-bold text-[#286E34]">
+              <h2 className="featured text-2xl text-center font-bold text-[#15803d]">
                 {article.title}
               </h2>
             </div>
 
-            <div className="mt-4 text-gray-400 space-y-4 text-sm md:text-base">
+            <div className="mt-4 text-gray-400 space-y-4  md:text-lg">
               <Markdown>{article.content}</Markdown>
             </div>
           </div>
