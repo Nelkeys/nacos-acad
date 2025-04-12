@@ -67,11 +67,7 @@ const SearchResults = () => {
         <meta name="author" content="NACOS Academia Team" />
         <meta
           property="og:title"
-          content={
-            article
-              ? `${article.title} | NACOS Academia`
-              : "NACOS Academia | Resources for Computer Science Students"
-          }
+          content="NACOS Academia | Resources for Computer Science Students"
         />
         <link rel="canonical" href="https://nacos-acad.vercel.app/" />
       </Helmet>
