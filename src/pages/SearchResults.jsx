@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Link, useLocation } from "react-router-dom";
 import supabase from "../utils/supabase";
+import { signInWithGoogle, signOut } from "../utils/auth"; // your Google sign-in/out functions
 import Header from "../components/Header";
 
 const SkeletonLoader = () => (
@@ -27,6 +28,8 @@ const SkeletonLoader = () => (
 const SearchResults = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isOnline, setIsOnline] = useState(null);
+  const [user, setUser] = useState(null);
 
   const location = useLocation();
   const queryParam = new URLSearchParams(location.search).get("query") || "";
@@ -53,6 +56,29 @@ const SearchResults = () => {
     fetchArticles();
   }, [queryParam]);
 
+  // Listen for authentication state changes
+  useEffect(() => {
+    const getSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setUser(session?.user || null);
+    };
+
+    getSession();
+
+    // Subscribe to auth state changes
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user || null);
+      }
+    );
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -71,7 +97,33 @@ const SearchResults = () => {
         />
         <link rel="canonical" href="https://nacos-acad.vercel.app/" />
       </Helmet>
+
       <div className="bg-[#121212] min-h-screen flex flex-col items-center px-4 py-6">
+        {/* Top-right authentication buttons */}
+        <div className="fixed top-0 right-2 lg:right-10 p-4 flex gap-4 z-10">
+          {user ? (
+            <>
+              <button
+                onClick={signOut}
+                className="border border-[#15803d] px-6 py-3 text-[#aeaeae] text-sm font-semibold rounded-full hover:bg-[#006259] transition cursor-pointer"
+              >
+                Log out
+              </button>
+              <img
+                src={user.user_metadata.avatar_url}
+                alt="User Avatar"
+                className="w-10 h-10 rounded-full"
+              />
+            </>
+          ) : (
+            <button
+              onClick={signInWithGoogle}
+              className="border border-[#15803d] px-6 py-3 text-[#aeaeae] text-sm font-semibold rounded-full hover:bg-[#006259] transition cursor-pointer"
+            >
+              Log in
+            </button>
+          )}
+        </div>
         <Header query={queryParam} />
         <div className="text-white w-full max-w-xl mt-10 space-y-6">
           {loading ? (

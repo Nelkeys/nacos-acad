@@ -14,7 +14,7 @@ const Header = ({ query }) => {
 
   return (
     <div className="text-white flex flex-col items-center justify-center space-y-1 w-full max-w-xl">
-      <div className="text-center py-5">
+      <div className="text-center mt-7 py-5">
         <h1
           className="text-3xl md:text-4xl font-medium cursor-pointer"
           onClick={() => navigate("/")}

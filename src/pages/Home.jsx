@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import supabase from "../utils/supabase"; // your Supabase client
+import { signInWithGoogle, signOut } from "../utils/auth"; // your Google sign-in/out functions
 import Logo from "../assets/nacos-logo.png";
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isOnline, setIsOnline] = useState(null);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   // Server check
@@ -17,7 +19,6 @@ const Home = () => {
           .from("academia-table")
           .select("id")
           .limit(1);
-
         if (error) throw error;
         setIsOnline(true);
       } catch (err) {
@@ -27,9 +28,32 @@ const Home = () => {
 
     checkServer();
 
-    // Optional: recheck every X seconds
+    // Recheck every 10 seconds
     const interval = setInterval(checkServer, 10000);
     return () => clearInterval(interval);
+  }, []);
+
+  // Listen for authentication state changes
+  useEffect(() => {
+    const getSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setUser(session?.user || null);
+    };
+
+    getSession();
+
+    // Subscribe to auth state changes
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user || null);
+      }
+    );
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
   }, []);
 
   const handleSearch = (e) => {
@@ -59,6 +83,32 @@ const Home = () => {
       </Helmet>
 
       <div className="relative h-screen flex flex-col items-center bg-[#121212] px-4">
+        {/* Top-right authentication buttons */}
+        <div className="fixed top-0 right-2 lg:right-10 p-4 flex gap-4 z-10">
+          {user ? (
+            <>
+              <button
+                onClick={signOut}
+                className="border border-[#15803d] px-6 py-3 text-[#aeaeae] text-sm font-semibold rounded-full hover:bg-[#006259] transition cursor-pointer"
+              >
+                Log out
+              </button>
+              <img
+                src={user.user_metadata.avatar_url}
+                alt="User Avatar"
+                className="w-10 h-10 rounded-full"
+              />
+            </>
+          ) : (
+            <button
+              onClick={signInWithGoogle}
+              className="border border-[#15803d] px-6 py-3 text-[#aeaeae] text-sm font-semibold rounded-full hover:bg-[#006259] transition cursor-pointer"
+            >
+              Log in
+            </button>
+          )}
+        </div>
+
         {/* Background Image */}
         <div className="absolute inset-0 flex items-center justify-center opacity-5">
           <img
@@ -68,17 +118,14 @@ const Home = () => {
           />
         </div>
 
-        <div className="text-center my-20">
+        <div className="text-center mt-40 mb-20">
           <h1 className="featured text-3xl md:text-4xl font-medium">
             <span className="text-[#15803d]">NACOS</span> ACADEMIA
           </h1>
         </div>
 
         {/* Search Form */}
-        <form
-          onSubmit={handleSearch}
-          className="relative z-10 w-full max-w-xl flex gap-2"
-        >
+        <form onSubmit={handleSearch} className="relative z-10 w-full max-w-xl flex gap-2">
           <input
             type="text"
             name="search"
@@ -88,7 +135,6 @@ const Home = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="rounded-full w-full bg-[#242424] border border-[#313131] text-white text-base pl-4 py-2.5 focus:outline-none placeholder-[#5f5d5d]"
           />
-
           <button
             type="submit"
             className="bg-[#006239] border border-[#3ab57e] hover:bg-[#006259] transition px-6 text-white text-sm font-normal rounded-full cursor-pointer"
@@ -97,6 +143,7 @@ const Home = () => {
           </button>
         </form>
 
+        {/* Server Status Indicator */}
         <div className="flex items-center gap-2 text-gray-400 text-sm mt-6">
           <p>Server status:</p>
           <div
