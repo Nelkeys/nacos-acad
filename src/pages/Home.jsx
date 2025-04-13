@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import supabase from "../utils/supabase"; // your Supabase client
 import { signInWithGoogle, signOut } from "../utils/auth"; // your Google sign-in/out functions
 import Logo from "../assets/nacos-logo.png";
+import { SlLogin, SlLogout } from "react-icons/sl";
+
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -84,15 +86,13 @@ const Home = () => {
 
       <div className="relative h-screen flex flex-col items-center bg-[#121212] px-4">
         {/* Top-right authentication buttons */}
-        <div className="fixed top-0 right-2 lg:right-10 p-4 flex gap-4 z-10">
+        <div className="fixed top-0 right-2 lg:right-10 p-4 flex items-center gap-6 z-10">
           {user ? (
             <>
-              <button
+              <SlLogout
                 onClick={signOut}
-                className="border border-[#15803d] px-6 py-3 text-[#aeaeae] text-sm font-semibold rounded-full hover:bg-[#006259] transition cursor-pointer"
-              >
-                Log out
-              </button>
+                className="text-[#efefef] text-2xl font-semibold hover:text-[#006259] transition cursor-pointer"
+              />
               <img
                 src={user.user_metadata.avatar_url}
                 alt="User Avatar"
@@ -100,12 +100,10 @@ const Home = () => {
               />
             </>
           ) : (
-            <button
+            <SlLogin
               onClick={signInWithGoogle}
-              className="border border-[#15803d] px-6 py-3 text-[#aeaeae] text-sm font-semibold rounded-full hover:bg-[#006259] transition cursor-pointer"
-            >
-              Log in
-            </button>
+              className="text-[#efefef] text-2xl font-semibold hover:text-[#006259] transition cursor-pointer"
+            />
           )}
         </div>
 
@@ -125,7 +123,10 @@ const Home = () => {
         </div>
 
         {/* Search Form */}
-        <form onSubmit={handleSearch} className="relative z-10 w-full max-w-xl flex gap-2">
+        <form
+          onSubmit={handleSearch}
+          className="relative z-10 w-full max-w-xl flex gap-2"
+        >
           <input
             type="text"
             name="search"

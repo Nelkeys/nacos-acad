@@ -5,6 +5,7 @@ import supabase from "../utils/supabase";
 import { signInWithGoogle, signOut } from "../utils/auth";
 import Header from "../components/Header";
 import Markdown from "react-markdown";
+import { SlLogin, SlLogout } from "react-icons/sl";
 
 const SkeletonLoader = () => (
   <div className="animate-pulse space-y-4">
@@ -106,12 +107,10 @@ const Read = () => {
         <div className="fixed top-0 right-2 lg:right-10 p-4 flex gap-4 z-10">
           {user ? (
             <>
-              <button
+              <SlLogout
                 onClick={signOut}
-                className="border border-[#15803d] px-6 py-3 text-[#aeaeae] text-sm font-semibold rounded-full hover:bg-[#006259] transition cursor-pointer"
-              >
-                Log out
-              </button>
+                className="text-[#efefef] text-2xl font-semibold hover:text-[#006259] transition cursor-pointer"
+              />
               <img
                 src={user.user_metadata.avatar_url}
                 alt="User Avatar"
@@ -119,12 +118,10 @@ const Read = () => {
               />
             </>
           ) : (
-            <button
+            <SlLogin
               onClick={signInWithGoogle}
-              className="border border-[#15803d] px-6 py-3 text-[#aeaeae] text-sm font-semibold rounded-full hover:bg-[#006259] transition cursor-pointer"
-            >
-              Log in
-            </button>
+              className="text-[#efefef] text-2xl font-semibold hover:text-[#006259] transition cursor-pointer"
+            />
           )}
         </div>
         <Header query={queryParam} />
