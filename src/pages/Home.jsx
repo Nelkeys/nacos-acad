@@ -35,28 +35,6 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Listen for authentication state changes
-  useEffect(() => {
-    const getSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setUser(session?.user || null);
-    };
-
-    getSession();
-
-    // Subscribe to auth state changes
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setUser(session?.user || null);
-      }
-    );
-
-    return () => {
-      listener.subscription.unsubscribe();
-    };
-  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -85,27 +63,6 @@ const Home = () => {
       </Helmet>
 
       <div className="relative h-screen flex flex-col items-center bg-[#121212] px-4">
-        {/* Top-right authentication buttons */}
-        <div className="fixed top-0 right-2 lg:right-10 p-4 flex items-center gap-6 z-10">
-          {user ? (
-            <>
-              <SlLogout
-                onClick={signOut}
-                className="text-[#efefef] text-2xl font-semibold hover:text-[#006259] transition cursor-pointer"
-              />
-              <img
-                src={user.user_metadata.avatar_url}
-                alt="User Avatar"
-                className="w-10 h-10 rounded-full"
-              />
-            </>
-          ) : (
-            <SlLogin
-              onClick={signInWithGoogle}
-              className="text-[#efefef] text-2xl font-semibold hover:text-[#006259] transition cursor-pointer"
-            />
-          )}
-        </div>
 
         {/* Background Image */}
         <div className="absolute inset-0 flex items-center justify-center opacity-5">
@@ -117,6 +74,9 @@ const Home = () => {
         </div>
 
         <div className="text-center mt-40 mb-20">
+          <div className="flex items-center justify-center mb-6">
+            <img className="w-20" src={Logo} alt="" />
+          </div>
           <h1 className="featured text-3xl md:text-4xl font-medium">
             <span className="text-[#15803d]">NACOS</span> ACADEMIA
           </h1>
@@ -146,9 +106,9 @@ const Home = () => {
 
         {/* Server Status Indicator */}
         <div className="flex items-center gap-2 text-gray-400 text-sm mt-6">
-          <p>Server status:</p>
+          <p>server status:</p>
           <div
-            className={`w-3 h-3 rounded-full border border-gray-300 ${
+            className={`w-3 h-3 rounded-full ${
               isOnline === null
                 ? "bg-gray-400"
                 : isOnline

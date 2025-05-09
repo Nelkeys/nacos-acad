@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "../assets/nacos-logo.png"; // Adjust the path as necessary
 
 const Header = ({ query }) => {
   const [searchTerm, setSearchTerm] = useState(query); // Store search text locally
@@ -14,11 +15,14 @@ const Header = ({ query }) => {
 
   return (
     <div className="text-white flex flex-col items-center justify-center space-y-1 w-full max-w-xl">
-      <div className="text-center mt-7 py-5">
-        <h1
-          className="text-3xl md:text-4xl font-medium cursor-pointer"
-          onClick={() => navigate("/")}
-        >
+      <div
+        className="text-center mt-7 py-5 flex items-center gap-4 cursor-pointer"
+        onClick={() => navigate("/")}
+      >
+        <div>
+          <img className="w-15" src={Logo} alt="" />
+        </div>
+        <h1 className="text-3xl md:text-4xl font-medium">
           <span className="featured text-[#15803d]">NACOS</span> ACADEMIA
         </h1>
       </div>

@@ -30,7 +30,6 @@ const SearchResults = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOnline, setIsOnline] = useState(null);
-  const [user, setUser] = useState(null);
 
   const location = useLocation();
   const queryParam = new URLSearchParams(location.search).get("query") || "";
@@ -57,28 +56,7 @@ const SearchResults = () => {
     fetchArticles();
   }, [queryParam]);
 
-  // Listen for authentication state changes
-  useEffect(() => {
-    const getSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setUser(session?.user || null);
-    };
 
-    getSession();
-
-    // Subscribe to auth state changes
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setUser(session?.user || null);
-      }
-    );
-
-    return () => {
-      listener.subscription.unsubscribe();
-    };
-  }, []);
 
   return (
     <>
@@ -100,27 +78,6 @@ const SearchResults = () => {
       </Helmet>
 
       <div className="bg-[#121212] min-h-screen flex flex-col items-center px-4 py-6">
-        {/* Top-right authentication buttons */}
-        <div className="fixed top-0 right-2 lg:right-10 p-4 flex gap-4 z-10">
-          {user ? (
-            <>
-              <SlLogout
-                onClick={signOut}
-                className="text-[#efefef] text-2xl font-semibold hover:text-[#006259] transition cursor-pointer"
-              />
-              <img
-                src={user.user_metadata.avatar_url}
-                alt="User Avatar"
-                className="w-10 h-10 rounded-full"
-              />
-            </>
-          ) : (
-            <SlLogin
-              onClick={signInWithGoogle}
-              className="text-[#efefef] text-2xl font-semibold hover:text-[#006259] transition cursor-pointer"
-            />
-          )}
-        </div>
         <Header query={queryParam} />
         <div className="text-white w-full max-w-xl mt-10 space-y-6">
           {loading ? (
@@ -129,7 +86,7 @@ const SearchResults = () => {
             articles.map((article) => (
               <div
                 key={article.id}
-                className="w-full px-4 py-6 bg-[#171717] border border-[#313131] rounded-lg"
+                className="w-full py-4"
               >
                 <div className="flex items-center gap-3">
                   <img
